@@ -1,0 +1,29 @@
+schema_version: 1
+selection_weights:
+  downstream_reuse: 0.30
+  k3_pi_gap: 0.25
+  hotspot_concentration: 0.20
+  upstream_feasibility: 0.15
+  effort_controllability: 0.10
+admission_gates:
+  - dependencies-green
+  - verifier-defined-and-passing
+  - fixed-dataset-and-metric
+  - measured-gap
+  - profiling-evidence
+  - identified-downstream-consumer
+  - upstream-policy-known
+layers:
+  L0: [installed-os, firmware, kernel, toolchain, environment-audit]
+  L1: [correctness, statistics, telemetry, immutable-results]
+  L2: [compiler-codegen, glibc-memory-primitives, standard-isa-dispatch]
+  L3: [openssl, zlib, zstd, liblzma, libjpeg-turbo, libpng, openblas, eigen]
+  L4: [numpy, opencv]
+  L5: [ggml, llama.cpp, onnxruntime-cpu]
+dependency_edges:
+  - [zlib, libpng]
+  - [libjpeg-turbo, opencv]
+  - [libpng, opencv]
+  - [openblas, numpy]
+  - [eigen, onnxruntime-cpu]
+  - [ggml, llama.cpp]

@@ -1,0 +1,72 @@
+schema_version: 1
+documents:
+  - id: root-readme
+    english: README.md
+    chinese: README.zh-CN.md
+    class: entrypoint
+    owner: governance
+    content_revision: 2
+    chinese_review_status: reviewed
+  - id: ai-human-collaboration
+    english: AGENTS.md
+    chinese: AGENTS.zh-CN.md
+    class: operating-contract
+    owner: governance
+    content_revision: 1
+    chinese_review_status: reviewed
+  - id: experiment-design
+    english: docs/design.md
+    chinese: docs/design.zh-CN.md
+    class: standard
+    owner: governance
+    content_revision: 2
+    chinese_review_status: reviewed
+  - id: operations
+    english: docs/operations.md
+    chinese: docs/operations.zh-CN.md
+    class: runbook
+    owner: governance
+    content_revision: 2
+    chinese_review_status: reviewed
+  - id: project-lifecycle
+    english: docs/project-lifecycle.md
+    chinese: docs/project-lifecycle.zh-CN.md
+    class: standard
+    owner: governance
+    content_revision: 2
+    chinese_review_status: reviewed
+  - id: project-requirements
+    english: docs/project-requirements.md
+    chinese: docs/project-requirements.zh-CN.md
+    class: standard
+    owner: governance
+    content_revision: 2
+    chinese_review_status: reviewed
+  - id: repository-layout
+    english: docs/repository-layout.md
+    chinese: docs/repository-layout.zh-CN.md
+    class: standard
+    owner: governance
+    content_revision: 2
+    chinese_review_status: reviewed
+  - id: repository-contract
+    english: docs/repository-contract.md
+    chinese: docs/repository-contract.zh-CN.md
+    class: standard
+    owner: governance
+    content_revision: 2
+    chinese_review_status: reviewed
+  - id: repository-consolidation-plan
+    english: docs/repository-consolidation-plan.md
+    chinese: docs/repository-consolidation-plan.zh-CN.md
+    class: implementation-plan
+    owner: governance
+    content_revision: 2
+    chinese_review_status: reviewed
+  - id: repo-workspace-architecture
+    english: docs/repo-workspace-architecture.md
+    chinese: docs/repo-workspace-architecture.zh-CN.md
+    class: architecture
+    owner: governance
+    content_revision: 1
+    chinese_review_status: reviewed

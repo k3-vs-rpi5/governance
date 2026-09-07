@@ -1,0 +1,13 @@
+schema_version: 1
+kind: documentation-catalog-schema
+description: Documentation pair schema is implemented by labctl.documentation.
+required_catalog_fields: [schema_version, documents]
+required_document_fields:
+  - id
+  - english
+  - chinese
+  - class
+  - owner
+  - content_revision
+  - chinese_review_status
+review_states: [pending, reviewed]
