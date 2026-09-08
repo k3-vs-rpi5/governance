@@ -544,7 +544,7 @@ Bianbu 4.0.4, and pinned GCC/Clang toolchains.
   Remove the Gitea provisioning script and its migration-only test. Retain the
   existing Gitea repositories only as operator-configured private mirrors.
 
-- [ ] **Step 3: Create and publish the five GitHub repositories**
+- [x] **Step 3: Create and publish the five GitHub repositories**
 
   Create empty public repositories under `k3-vs-rpi5` without generated files.
   In each local component repository rename the approved Gitea `origin` to
@@ -552,14 +552,14 @@ Bianbu 4.0.4, and pinned GCC/Clang toolchains.
   only `refs/heads/main:refs/heads/main`. Verify the remote object identity and
   default branch after every push.
 
-- [ ] **Step 4: Apply the initial branch safety policy**
+- [x] **Step 4: Apply the initial branch safety policy**
 
   Protect `main` against force pushes and deletion while retaining ordinary
   direct pushes. Do not require reviews or status checks until those controls
   have real maintainers and workflows; a nominal rule that blocks the sole
   maintainer is not an integrity improvement.
 
-- [ ] **Step 5: Reconstruct from the public host**
+- [x] **Step 5: Reconstruct from the public host**
 
   In fresh temporary directories, run the canonical default manifest and prove
   that governance, foundation, and CoreMark synchronize while reports remains
@@ -567,7 +567,7 @@ Bianbu 4.0.4, and pinned GCC/Clang toolchains.
   appears. Finally initialize the pinned release manifest and verify every
   checkout matches its declared full commit.
 
-- [ ] **Step 6: Audit the published state**
+- [x] **Step 6: Audit the published state**
 
   Verify that all five repositories are public, use `main`, contain the expected
   commit, have force-push/deletion protection, and expose no unexpected branch

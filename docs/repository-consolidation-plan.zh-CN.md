@@ -491,27 +491,27 @@ Bianbu 4.0.4，以及固定的 GCC/Clang 编译链。
   删除 Gitea 仓库供应脚本及其迁移专用测试。已有 Gitea 仓库只作为由操作人员配置的
   私有镜像保留。
 
-- [ ] **步骤 3：创建并发布五个 GitHub 仓库**
+- [x] **步骤 3：创建并发布五个 GitHub 仓库**
 
   在 `k3-vs-rpi5` 下建立不生成附加文件的空公开仓库。在每个本地组件仓库中把已批准
   的 Gitea `origin` 改名为 `gitea`，把
   `https://github.com/k3-vs-rpi5/<name>.git` 添加为 `origin`，并且只推送
   `refs/heads/main:refs/heads/main`。每次推送后核对远端对象身份和默认分支。
 
-- [ ] **步骤 4：应用初始分支安全策略**
+- [x] **步骤 4：应用初始分支安全策略**
 
   保护 `main`，禁止 force push 和删除，同时保留普通直接推送。在评审人员和 CI
   工作流真实存在之前，不强制 review 或状态检查；让唯一维护者被名义规则锁死不能
   提升完整性。
 
-- [ ] **步骤 5：从公开托管位置重建**
+- [x] **步骤 5：从公开托管位置重建**
 
   在全新临时目录使用权威 default manifest，证明 governance、foundation 和
   CoreMark 可以同步，而 reports 不存在；随后同步 `default,reports` 并证明 reports
   仓库出现；最后初始化固定 release manifest，核对每个 checkout 与声明的完整
   commit 一致。
 
-- [ ] **步骤 6：审核发布状态**
+- [x] **步骤 6：审核发布状态**
 
   核对五个仓库全部公开、默认分支均为 `main`、包含预期 commit、禁止 force push/
   删除，且没有非预期 branch 或 tag。再次扫描 GitHub 可达对象中的秘密，并在交接中
