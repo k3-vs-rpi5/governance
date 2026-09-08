@@ -452,8 +452,73 @@ Bianbu 4.0.4，以及固定的 GCC/Clang 编译链。
   remote、默认工作区没有 reports、受跟踪内容没有秘密字面量，且没有缺乏证据的
   公开结论。准确报告剩余阻塞项，尤其是缺少最终 remote URL 或硬件不可用。
 
+### 任务 9：发布权威 GitHub 工作区
+
+**文件：**
+
+- 修改：`README.md`
+- 修改：`README.zh-CN.md`
+- 修改：`docs/repo-workspace-architecture.md`
+- 修改：`docs/repo-workspace-architecture.zh-CN.md`
+- 修改：`config/documentation.yaml`
+- 在 manifests 中修改：`README.md`
+- 在 manifests 中修改：`README.zh-CN.md`
+- 从 manifests 删除：`tools/provision_gitea.py`
+- 从 manifests 删除：`tests/test_provision_gitea.py`
+
+**接口：**
+
+- 输入：五个已经验证的组件历史和已批准的 GitHub 组织 `k3-vs-rpi5`。
+- 输出：五个公开同级仓库、权威公开 `repo init` URL、保留的私有 Gitea 镜像 remote
+  和全新克隆证据。
+
+- [x] **步骤 1：重新执行公开历史安全门禁**
+
+  确认 GitHub 组织成员资格有效且具备管理员权限、五个目标名称均未使用、每个组件
+  工作树干净，并且全部可达 commit 不包含设备凭据、秘密值、本地证据、缓存、构建
+  或恢复材料。运行每个组件已有的聚焦检查；不得增加只服务迁移的测试。
+
+- [x] **步骤 2：更新权威双语文档**
+
+  声明 `https://github.com/k3-vs-rpi5` 为权威公开托管位置。保持仓库名称为
+  `governance`、`foundation`、`coremark`、`reports` 和 `manifests`，默认同步继续排除
+  reports。把 manifest 占位符替换为：
+
+  ```bash
+  repo init -u https://github.com/k3-vs-rpi5/manifests.git -b main -m default.xml
+  ```
+
+  删除 Gitea 仓库供应脚本及其迁移专用测试。已有 Gitea 仓库只作为由操作人员配置的
+  私有镜像保留。
+
+- [ ] **步骤 3：创建并发布五个 GitHub 仓库**
+
+  在 `k3-vs-rpi5` 下建立不生成附加文件的空公开仓库。在每个本地组件仓库中把已批准
+  的 Gitea `origin` 改名为 `gitea`，把
+  `https://github.com/k3-vs-rpi5/<name>.git` 添加为 `origin`，并且只推送
+  `refs/heads/main:refs/heads/main`。每次推送后核对远端对象身份和默认分支。
+
+- [ ] **步骤 4：应用初始分支安全策略**
+
+  保护 `main`，禁止 force push 和删除，同时保留普通直接推送。在评审人员和 CI
+  工作流真实存在之前，不强制 review 或状态检查；让唯一维护者被名义规则锁死不能
+  提升完整性。
+
+- [ ] **步骤 5：从公开托管位置重建**
+
+  在全新临时目录使用权威 default manifest，证明 governance、foundation 和
+  CoreMark 可以同步，而 reports 不存在；随后同步 `default,reports` 并证明 reports
+  仓库出现；最后初始化固定 release manifest，核对每个 checkout 与声明的完整
+  commit 一致。
+
+- [ ] **步骤 6：审核发布状态**
+
+  核对五个仓库全部公开、默认分支均为 `main`、包含预期 commit、禁止 force push/
+  删除，且没有非预期 branch 或 tag。再次扫描 GitHub 可达对象中的秘密，并在交接中
+  记录准确权威 URL。
+
 ## 完成定义
 
-当固定的本地 release manifest 可以重建干净默认 `repo` 工作区、reports 仓库可
-单独审计、CoreMark 成为测试最小化的独立项目、三轨环境全部通过资格检查或明确
-blocked，且没有推送或破坏性替换原工作区时，本次实施完成。
+当公开 GitHub manifest 可以重建干净默认 `repo` 工作区、reports 仓库可单独审计、
+CoreMark 成为测试最小化的独立项目、三轨环境全部通过资格检查或明确 blocked，且
+原单体仓库和私有 Gitea 镜像保持可恢复时，本次实施完成。

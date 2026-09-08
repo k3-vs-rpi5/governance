@@ -5,7 +5,7 @@ documents:
     chinese: README.zh-CN.md
     class: entrypoint
     owner: governance
-    content_revision: 2
+    content_revision: 3
     chinese_review_status: reviewed
   - id: ai-human-collaboration
     english: AGENTS.md
@@ -61,12 +61,12 @@ documents:
     chinese: docs/repository-consolidation-plan.zh-CN.md
     class: implementation-plan
     owner: governance
-    content_revision: 2
+    content_revision: 3
     chinese_review_status: reviewed
   - id: repo-workspace-architecture
     english: docs/repo-workspace-architecture.md
     chinese: docs/repo-workspace-architecture.zh-CN.md
     class: architecture
     owner: governance
-    content_revision: 1
+    content_revision: 2
     chinese_review_status: reviewed

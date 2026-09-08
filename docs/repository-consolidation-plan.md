@@ -501,10 +501,83 @@ Bianbu 4.0.4, and pinned GCC/Clang toolchains.
   and no unsupported public claim. Report exact remaining blockers, especially
   missing final remote URLs or unavailable hardware.
 
+### Task 9: Publish the canonical GitHub workspace
+
+**Files:**
+
+- Modify: `README.md`
+- Modify: `README.zh-CN.md`
+- Modify: `docs/repo-workspace-architecture.md`
+- Modify: `docs/repo-workspace-architecture.zh-CN.md`
+- Modify: `config/documentation.yaml`
+- Modify in manifests: `README.md`
+- Modify in manifests: `README.zh-CN.md`
+- Remove from manifests: `tools/provision_gitea.py`
+- Remove from manifests: `tests/test_provision_gitea.py`
+
+**Interfaces:**
+
+- Consumes: the five validated component histories and the approved GitHub
+  organization `k3-vs-rpi5`.
+- Produces: five public sibling repositories, a canonical public `repo init`
+  URL, retained private Gitea mirror remotes, and fresh-clone evidence.
+
+- [x] **Step 1: Re-run the public-history safety gate**
+
+  Confirm the GitHub organization membership is active with administrator
+  authority, all five target names are unused, every component worktree is
+  clean, and every reachable commit is free of device credentials, secret
+  values, local evidence, caches, builds, and recovery material. Run each
+  component's existing focused checks; do not add migration-only tests.
+
+- [x] **Step 2: Update the canonical bilingual documentation**
+
+  Declare `https://github.com/k3-vs-rpi5` as the canonical public host. Keep the
+  repositories named `governance`, `foundation`, `coremark`, `reports`, and
+  `manifests`, with reports excluded from default synchronization. Replace the
+  manifest placeholder with:
+
+  ```bash
+  repo init -u https://github.com/k3-vs-rpi5/manifests.git -b main -m default.xml
+  ```
+
+  Remove the Gitea provisioning script and its migration-only test. Retain the
+  existing Gitea repositories only as operator-configured private mirrors.
+
+- [ ] **Step 3: Create and publish the five GitHub repositories**
+
+  Create empty public repositories under `k3-vs-rpi5` without generated files.
+  In each local component repository rename the approved Gitea `origin` to
+  `gitea`, add `https://github.com/k3-vs-rpi5/<name>.git` as `origin`, and push
+  only `refs/heads/main:refs/heads/main`. Verify the remote object identity and
+  default branch after every push.
+
+- [ ] **Step 4: Apply the initial branch safety policy**
+
+  Protect `main` against force pushes and deletion while retaining ordinary
+  direct pushes. Do not require reviews or status checks until those controls
+  have real maintainers and workflows; a nominal rule that blocks the sole
+  maintainer is not an integrity improvement.
+
+- [ ] **Step 5: Reconstruct from the public host**
+
+  In fresh temporary directories, run the canonical default manifest and prove
+  that governance, foundation, and CoreMark synchronize while reports remains
+  absent. Then synchronize `default,reports` and prove the reports repository
+  appears. Finally initialize the pinned release manifest and verify every
+  checkout matches its declared full commit.
+
+- [ ] **Step 6: Audit the published state**
+
+  Verify that all five repositories are public, use `main`, contain the expected
+  commit, have force-push/deletion protection, and expose no unexpected branch
+  or tag. Re-run the secret scan against reachable GitHub objects and record the
+  exact canonical URLs in the handoff.
+
 ## Completion definition
 
 The implementation is complete when a clean default `repo` workspace can be
-reconstructed from the pinned local release manifest, the reports repository is
+reconstructed from the public GitHub manifest, the reports repository is
 separately auditable, CoreMark is an independent minimally tested project, all
-three environment tracks are either qualified or explicitly blocked, and no
-push or destructive replacement of the original workspace has occurred.
+three environment tracks are either qualified or explicitly blocked, and the
+original monorepo and private Gitea mirrors remain recoverable.

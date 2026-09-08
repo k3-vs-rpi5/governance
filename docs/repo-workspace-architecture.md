@@ -346,6 +346,14 @@ It is not injected into the new repository histories. No repository is pushed
 until its basic validation passes and its exact remote URL, branch, and refspec
 are approved. Final manifests never contain placeholder remotes.
 
+The canonical public host is `https://github.com/k3-vs-rpi5`. Its sibling
+repositories are named `governance`, `foundation`, `coremark`, `reports`, and
+`manifests`; `main` is the canonical branch. The manifest remote remains
+sibling-relative so the same manifest resolves every repository from that
+organization. Local checkouts use GitHub as `origin`. An existing private
+Gitea remote may remain as `gitea` for recovery or explicit mirroring, but it
+does not define a public revision and is never selected by a release manifest.
+
 Credentials and private device inventory live outside all managed Git
 repositories. Caches, downloaded toolchains, build workspaces, local candidate
 evidence, and recovery bundles are also excluded. The root collaboration file
@@ -371,9 +379,11 @@ The architecture is implemented only when all of the following are true:
 10. no secret, cache, temporary log, candidate result, or report is transferred
     by the default code migration;
 11. the single CoreMark report pair traces every current claim to accepted
-    evidence and exact repository revisions; and
+    evidence and exact repository revisions;
 12. an immutable release manifest reconstructs the same code version set in a
-    clean workspace.
+    clean workspace; and
+13. the public GitHub manifest reconstructs the default workspace with reports
+    absent, while explicit `default,reports` synchronization retrieves reports.
 
 ## Current-tree consequences
 

@@ -291,6 +291,13 @@ reports 仓库，并在同一次审核变更中更新唯一报告对和 `report.
 在基本验证通过且准确远端 URL、分支和 refspec 获得批准前都不得推送。最终
 manifest 禁止包含占位远端。
 
+权威公开托管位置是 `https://github.com/k3-vs-rpi5`。同级仓库名称为
+`governance`、`foundation`、`coremark`、`reports` 和 `manifests`，权威分支为
+`main`。manifest remote 继续使用同级相对路径，从该组织即可解析全部仓库。本地
+checkout 使用 GitHub 作为 `origin`。已有私有 Gitea remote 可以作为 `gitea` 保留，
+用于恢复或明确执行的镜像操作，但它不定义公开 revision，也绝不被 release
+manifest 选择。
+
 凭据和私有设备清单位于所有受管 Git 仓库之外。缓存、已下载工具链、构建工作区、
 本地候选证据和恢复 bundle 同样排除。根目录协作文件由 governance 可复现生成，
 而不是依赖未跟踪的本地惯例。
@@ -311,7 +318,9 @@ manifest 禁止包含占位远端。
 9. 每个保留的本地测试都能指出一项允许的长期契约；
 10. 默认代码迁移不会传输任何秘密、缓存、临时日志、候选结果或报告；
 11. 唯一 CoreMark 报告对把每项当前结论追溯到已接受证据和准确仓库版本；
-12. 不可变 release manifest 可以在干净工作区重建同一代码版本集合。
+12. 不可变 release manifest 可以在干净工作区重建同一代码版本集合；
+13. 公开 GitHub manifest 可以重建默认不含 reports 的工作区，而显式
+    `default,reports` 同步可以取得 reports。
 
 ## 对当前目录的影响
 

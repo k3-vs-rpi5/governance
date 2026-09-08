@@ -26,6 +26,14 @@ foundation、项目和报告具有独立 Git 历史。程序只采集性能；�
 - [操作手册](docs/operations.zh-CN.md)规定本地与设备执行方法。
 - 同步 foundation 仓库中的平台基线区分厂商规格、板卡清单和实验室控制条件。
 
+## 权威公开工作区
+
+五个仓库作为公开同级仓库位于
+[`k3-vs-rpi5`](https://github.com/k3-vs-rpi5)：`governance`、`foundation`、
+`coremark`、`reports` 和 `manifests`。全新开发工作区从
+`https://github.com/k3-vs-rpi5/manifests.git` 初始化；default manifest 不包含
+reports。可以保留由操作人员管理的私有 Gitea 镜像，但它们不是权威 remote。
+
 ## 本地验证
 
 建立隔离的 foundation 开发环境，只执行其保留的契约测试：
@@ -45,6 +53,6 @@ projects/coremark/scripts/run.sh --help
 
 ## 发布状态
 
-组件检查与设备门禁通过、不可变 release manifest 可以重建默认不含 reports 的
-干净工作区、报告晋升经过独立审核，并明确批准远端 URL、分支和 refspec 之前，
-不得公布结果或首次推送。工作区契约本身不配置 Git remote。
+公开源码仓库不等于批准性能结果。公开结果仍必须通过组件与设备门禁、不可变
+release manifest、独立报告审核和证据身份闭环。GitHub `main` 是已批准的权威源码
+ref；报告晋升仍是独立的人工决策。

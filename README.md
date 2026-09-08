@@ -29,6 +29,15 @@ chain, storage, wired network, commands, and validation state are recorded.
 - The platform baseline in the synchronized foundation repository separates
   vendor specifications, board inventory, and laboratory controls.
 
+## Canonical public workspace
+
+The five repositories are public siblings under
+[`k3-vs-rpi5`](https://github.com/k3-vs-rpi5): `governance`, `foundation`,
+`coremark`, `reports`, and `manifests`. Bootstrap a clean development workspace
+from `https://github.com/k3-vs-rpi5/manifests.git`; the default manifest excludes
+reports. Private Gitea repositories may be retained as operator-managed mirrors,
+but they are not canonical remotes.
+
 ## Local verification
 
 Create an isolated foundation development environment and run only its retained
@@ -51,8 +60,8 @@ the artifact.
 
 ## Release state
 
-No public result or first push is permitted until the component checks and
-device gates pass, an immutable release manifest recreates a clean default
-workspace without reports, any report promotion is independently reviewed, and
-the exact remote URL, branch, and refspec are approved. No Git remote is
-configured by this workspace contract.
+Publishing source repositories does not approve a benchmark result. A public
+result still requires the component and device gates, an immutable release
+manifest, independent report review, and evidence-identity closure. GitHub
+`main` is the approved canonical source ref; report promotion remains a separate
+human decision.
