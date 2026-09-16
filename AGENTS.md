@@ -58,7 +58,12 @@ A project-local `AGENTS.md` may impose stricter rules but cannot relax this file
   plus the compiler executable SHA-256 enter the build manifest and sealed
   evidence. A track whose environment lock names another compiler and runtime
   keeps that locked identity, and the difference is a declared deviation, never
-  an undeclared substitution.
+  an undeclared substitution. A reviewed best-achievable lane may name another
+  compiler when a project lock, a measured comparison, and human approval
+  agree: the K3 `k3-development` best-achievable lane uses Clang 23 with the
+  upstream SpacemiT X100 scheduling model and a board-generated LLVM profile,
+  records the compiler, runtime, and profile digests in its evidence, and never
+  enters a `default-parity` result.
 - Device work reaches the selected board through the local-only workspace
   credentials `.ssh-k3` (K3) and `.ssh-rpi` (Raspberry Pi): the host pushes the
   cross-compiled result, executes it there, and collects and analyses the raw
