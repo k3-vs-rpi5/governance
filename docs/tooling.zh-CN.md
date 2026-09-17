@@ -42,6 +42,21 @@
 | `.local/llvm.sh`、`.local/llama.cpp/{diag,test-dl-off,diagnostic-probe.patch}` | 临时 | - | 构建排查残留 | 该轮结束后经批准删除 |
 | `.local/coremark-work/` | 冻结产物 | - | 各轮引用的实验记录 | 保留在 Git 之外 |
 
+## 登记粒度
+
+一行可以指向一个包目录（`foundation/src/labctl/`、`projects/coremark/src/coremark_project/`），
+也可以指向单个文件（`experiments/onnx-ep-profile.py`）。包行覆盖其内部所有模块与测试：它们
+是同一个工具、同一个角色，逐个列出反而会掩盖这一点。**尚未审计的代码按原样登记，而不是
+省略。**
+
+## 已声明的缺口
+
+| 缺口 | 状态 |
+|---|---|
+| `projects/onnxruntime` 没有 `scripts/` 入口，也没有 `_project` 包 | 已声明：provider 闭源且自动化尚未编写；登记表明说，而不是假装项目完整 |
+| `projects/onnxruntime` 与 `projects/spine-runtime` 没有项目局部 `AGENTS.md` | 开放：coremark 与 llama.cpp 已有 |
+| 六个硬件仓库与三个新项目不在 `.repo/manifests/default.xml` 中 | 开放：它们的远端尚不存在，写进清单会破坏 `repo sync`；条目已作为评审材料写在各 README |
+
 ## 由此得出的规则
 
 - 一个仓库暴露两个入口；它发布的其它一切都要经这两个入口触达。工作流需要第三个动词

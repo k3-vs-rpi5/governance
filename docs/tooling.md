@@ -43,6 +43,22 @@ overlaps with, and what should happen to it.
 | `.local/llvm.sh`, `.local/llama.cpp/{diag,test-dl-off,diagnostic-probe.patch}` | temporary | - | build-investigation scratch | delete when the round closes, with approval |
 | `.local/coremark-work/` | frozen artefact | - | the campaign record that rounds cite | keep outside Git |
 
+## Register granularity
+
+A row may name a package directory (`foundation/src/labctl/`,
+`projects/coremark/src/coremark_project/`) or a single file
+(`experiments/onnx-ep-profile.py`). A package row covers every module and test
+inside it: they are one tool with one role, and listing each module would hide
+that. Code that is still unaudited is listed as such rather than omitted.
+
+## Declared gaps
+
+| gap | state |
+|---|---|
+| `projects/onnxruntime` has no `scripts/` doors and no `_project` package | declared: the provider is closed and its automation has not been written; the register says so instead of pretending the project is complete |
+| neither `projects/onnxruntime` nor `projects/spine-runtime` has a project-local `AGENTS.md` | open: coremark and llama.cpp do |
+| the six hardware repositories and three new projects are absent from `.repo/manifests/default.xml` | open: their remotes do not exist yet, so a manifest entry would break `repo sync`; entries are prepared as review material in each README |
+
 ## Rules that follow
 
 - A repository exposes two doors; everything else it ships is reached through
