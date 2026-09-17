@@ -20,6 +20,8 @@
 |---|---|---|---|---|
 | `foundation/src/labctl/` | 工具 | `labctl` 入口 | - | 保留 |
 | `*/scripts/build.sh`、`*/scripts/run.sh` | 工具 | 仓库契约：恰好两个入口 | 每个 `run.sh` 里重复的 ssh/凭据块是**故意**的，以便仓库被复制后自洽 | 保留 |
+| `hardware/k3-monitor/src/k3mon_project/payload_verify.py` | 工具 | `run.sh verify [payload]` | 唯一的载荷交付前校验；因一次缺符号链接导致运行作废而写 | 保留 |
+| `hardware/k3-monitor/src/k3mon_project/evidence_index.py` | 工具 | `run.sh evidence [root]` | 唯一的本地证据树与封存状态索引 | 保留 |
 | `hardware/k3-monitor/src/k3mon_project/suite.sh` | 工具 | `scripts/run.sh build\|check\|scenarios\|suite\|analyse` | 编排各仓库脚本，不重复实现 | 保留 |
 | `hardware/k3-monitor/experiments/board.sh` | 调试必备 | 手动，以及各实验装置 | 唯一的临时板卡通道；按设计重复凭据块 | 保留 |
 | `hardware/k3-monitor/experiments/onnx-ep-analysis.py` | 工具 | `run.sh analyse` | 取代 `ai-optim.py` 的结论复核 | 保留 |

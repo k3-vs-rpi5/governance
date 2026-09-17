@@ -21,6 +21,8 @@ overlaps with, and what should happen to it.
 |---|---|---|---|---|
 | `foundation/src/labctl/` | tool | the `labctl` entry point | - | keep |
 | `*/scripts/build.sh`, `*/scripts/run.sh` | tool | the repository contract: exactly two doors | the ssh/credential block is repeated in each `run.sh` on purpose, so a repository stays self-contained when copied | keep |
+| `hardware/k3-monitor/src/k3mon_project/payload_verify.py` | tool | `run.sh verify [payload]` | the only payload pre-flight check; written because a missing shared-library symlink invalidated a run | keep |
+| `hardware/k3-monitor/src/k3mon_project/evidence_index.py` | tool | `run.sh evidence [root]` | the only index of the local evidence trees and their seals | keep |
 | `hardware/k3-monitor/src/k3mon_project/suite.sh` | tool | `scripts/run.sh build\|check\|scenarios\|suite\|analyse` | orchestrates the per-repository scripts; does not reimplement them | keep |
 | `hardware/k3-monitor/experiments/board.sh` | debug-essential | manual, and every experiment harness | the only ad-hoc board path; duplicates the credential block by design | keep |
 | `hardware/k3-monitor/experiments/onnx-ep-analysis.py` | tool | `run.sh analyse` | supersedes `ai-optim.py`'s verdict checks | keep |
