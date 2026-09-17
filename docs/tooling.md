@@ -21,15 +21,15 @@ overlaps with, and what should happen to it.
 |---|---|---|---|---|
 | `foundation/src/labctl/` | tool | the `labctl` entry point | - | keep |
 | `*/scripts/build.sh`, `*/scripts/run.sh` | tool | the repository contract: exactly two doors | the ssh/credential block is repeated in each `run.sh` on purpose, so a repository stays self-contained when copied | keep |
-| `hardware/k3-monitor/scripts/suite.sh` | tool | humans and scenario runs | orchestrates `run.sh`; does not reimplement it | keep |
+| `hardware/k3-monitor/src/k3mon_project/suite.sh` | tool | `scripts/run.sh build\|check\|scenarios\|suite\|analyse` | orchestrates the per-repository scripts; does not reimplement them | keep |
 | `hardware/k3-monitor/experiments/board.sh` | debug-essential | manual, and every experiment harness | the only ad-hoc board path; duplicates the credential block by design | keep |
-| `hardware/k3-monitor/experiments/onnx-ep-analysis.py` | tool | `suite.sh analyse` | supersedes `ai-optim.py`'s verdict checks | keep |
+| `hardware/k3-monitor/experiments/onnx-ep-analysis.py` | tool | `run.sh analyse` | supersedes `ai-optim.py`'s verdict checks | keep |
 | `hardware/k3-monitor/experiments/onnx-ep-profile.py` | tool | manual | - | keep |
 | `hardware/k3-monitor/experiments/onnx-ep-matrix.sh` | tool | manual | parallel in spirit to the llama.cpp matrix subcommand, different stack | keep |
 | `hardware/k3-monitor/experiments/package-summary.py` | tool | manual | - | keep |
 | `hardware/k3-monitor/experiments/phase-summary.py` | frozen artefact | - | round 14-15 phase split | keep, no features |
 | `hardware/k3-monitor/experiments/phase-compare.py` | frozen artefact | - | superseded by the repeat table in `onnx-ep-analysis.py` | keep, no features |
-| `hardware/k3-monitor/experiments/ai-scenarios.py` | frozen artefact | - | superseded by the scenario table in `suite.sh` | keep, no features |
+| `hardware/k3-monitor/experiments/ai-scenarios.py` | frozen artefact | - | superseded by the scenario table in the suite | keep, no features |
 | `hardware/k3-monitor/experiments/ai-optim.py` | frozen artefact | - | superseded by `onnx-ep-analysis.py` | keep, no features |
 | `projects/llama.cpp/src/llama.cpp_project/bench.sh` | tool | `scripts/run.sh <subcommand>` | absorbs the three deleted experiment scripts | keep |
 | `.../gen_kernel_probe.py` | tool | build and debug | - | keep |

@@ -20,15 +20,15 @@
 |---|---|---|---|---|
 | `foundation/src/labctl/` | 工具 | `labctl` 入口 | - | 保留 |
 | `*/scripts/build.sh`、`*/scripts/run.sh` | 工具 | 仓库契约：恰好两个入口 | 每个 `run.sh` 里重复的 ssh/凭据块是**故意**的，以便仓库被复制后自洽 | 保留 |
-| `hardware/k3-monitor/scripts/suite.sh` | 工具 | 人工与场景运行 | 编排 `run.sh`，不重复实现 | 保留 |
+| `hardware/k3-monitor/src/k3mon_project/suite.sh` | 工具 | `scripts/run.sh build\|check\|scenarios\|suite\|analyse` | 编排各仓库脚本，不重复实现 | 保留 |
 | `hardware/k3-monitor/experiments/board.sh` | 调试必备 | 手动，以及各实验装置 | 唯一的临时板卡通道；按设计重复凭据块 | 保留 |
-| `hardware/k3-monitor/experiments/onnx-ep-analysis.py` | 工具 | `suite.sh analyse` | 取代 `ai-optim.py` 的结论复核 | 保留 |
+| `hardware/k3-monitor/experiments/onnx-ep-analysis.py` | 工具 | `run.sh analyse` | 取代 `ai-optim.py` 的结论复核 | 保留 |
 | `hardware/k3-monitor/experiments/onnx-ep-profile.py` | 工具 | 手动 | - | 保留 |
 | `hardware/k3-monitor/experiments/onnx-ep-matrix.sh` | 工具 | 手动 | 与 llama.cpp 的 matrix 子命令思路相同，但栈不同 | 保留 |
 | `hardware/k3-monitor/experiments/package-summary.py` | 工具 | 手动 | - | 保留 |
 | `hardware/k3-monitor/experiments/phase-summary.py` | 冻结产物 | - | 第 14-15 轮的阶段切分 | 保留，不加功能 |
 | `hardware/k3-monitor/experiments/phase-compare.py` | 冻结产物 | - | 已被 `onnx-ep-analysis.py` 的重复表取代 | 保留，不加功能 |
-| `hardware/k3-monitor/experiments/ai-scenarios.py` | 冻结产物 | - | 已被 `suite.sh` 的场景表取代 | 保留，不加功能 |
+| `hardware/k3-monitor/experiments/ai-scenarios.py` | 冻结产物 | - | 已被套件的场景表取代 | 保留，不加功能 |
 | `hardware/k3-monitor/experiments/ai-optim.py` | 冻结产物 | - | 已被 `onnx-ep-analysis.py` 取代 | 保留，不加功能 |
 | `projects/llama.cpp/src/llama.cpp_project/bench.sh` | 工具 | `scripts/run.sh <subcommand>`（子命令形式） | 吸收了被删掉的三个实验脚本 | 保留 |
 | `.../gen_kernel_probe.py` | 工具 | 构建与调试 | - | 保留 |
