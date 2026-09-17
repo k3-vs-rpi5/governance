@@ -24,6 +24,7 @@
 | `hardware/k3-monitor/src/k3mon_project/evidence_index.py` | 工具 | `run.sh evidence [root]` | 唯一的本地证据树与封存状态索引 | 保留 |
 | `hardware/k3-monitor/src/k3mon_project/selfcheck.py` | 工具 | `run.sh selfcheck` | 一次跑完七项机械自检，使那套找出四个缺陷的审计不必手工重复 | 保留 |
 | `hardware/k3-monitor/src/k3mon_project/suite.sh` | 工具 | `scripts/run.sh build\|check\|scenarios\|suite\|analyse` | 编排各仓库脚本，不重复实现 | 保留 |
+| `hardware/k3-fan-control/tests/guard-test.sh` | 工具 | `tests/guard-test.sh` | 唯一不需要板卡的风扇守护进程测试；它在私有 mount namespace 中伪造 sysfs 树，而板卡会长时间不可达 | 保留 |
 | `hardware/k3-monitor/experiments/board.sh` | 调试必备 | 手动，以及各实验装置 | 唯一的临时板卡通道；按设计重复凭据块 | 保留 |
 | `hardware/k3-monitor/experiments/onnx-ep-analysis.py` | 工具 | `run.sh analyse` | 取代 `ai-optim.py` 的结论复核 | 保留 |
 | `hardware/k3-monitor/experiments/onnx-ep-profile.py` | 工具 | 手动 | - | 保留 |

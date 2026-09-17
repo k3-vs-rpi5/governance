@@ -25,6 +25,7 @@ overlaps with, and what should happen to it.
 | `hardware/k3-monitor/src/k3mon_project/evidence_index.py` | tool | `run.sh evidence [root]` | the only index of the local evidence trees and their seals | keep |
 | `hardware/k3-monitor/src/k3mon_project/selfcheck.py` | tool | `run.sh selfcheck` | runs the seven mechanical workspace checks in one pass, so the audit that found four defects does not have to be repeated by hand | keep |
 | `hardware/k3-monitor/src/k3mon_project/suite.sh` | tool | `scripts/run.sh build\|check\|scenarios\|suite\|analyse` | orchestrates the per-repository scripts; does not reimplement them | keep |
+| `hardware/k3-fan-control/tests/guard-test.sh` | tool | `tests/guard-test.sh` | the only test of the fan guard that does not need the board; it fakes the sysfs tree inside a private mount namespace, and the board is unreachable for long stretches | keep |
 | `hardware/k3-monitor/experiments/board.sh` | debug-essential | manual, and every experiment harness | the only ad-hoc board path; duplicates the credential block by design | keep |
 | `hardware/k3-monitor/experiments/onnx-ep-analysis.py` | tool | `run.sh analyse` | supersedes `ai-optim.py`'s verdict checks | keep |
 | `hardware/k3-monitor/experiments/onnx-ep-profile.py` | tool | manual | - | keep |
