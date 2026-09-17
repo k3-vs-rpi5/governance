@@ -50,7 +50,7 @@ A project-local `AGENTS.md` may impose stricter rules but cannot relax this file
 ## Workspace build, device, and optimization workflow
 
 - Every cross build of a binary that runs on a board uses the workspace
-  toolchain `spacemit-toolchain-linux-glibc-x86_64-v1.2.2/`, for example
+  toolchain `spacemit-toolchain-linux-glibc-x86_64-v1.2.4/`, for example
   `bin/riscv64-unknown-linux-gnu-gcc` (GCC 15.2.0) with its own `sysroot/`.
   This is the default for the K3 development and optimization path; a host
   compiler, a second cross toolchain, or an undeclared vendor package is not
@@ -97,10 +97,21 @@ report states which one it targets.
      instruction family through `-march=..._xsmtvdotii` or
      `-mcpu=spacemit-a100`; a build that omits it silently contains no A100
      path;
-  2. let a vendor runtime register the thread with the driver, which is what the
-     llama.cpp SpacemiT backend does by writing to `/proc/set_ai_thread`, and
-     what the ONNX SpacemiT execution provider does internally. The driver then
-     executes that thread on the AI cluster.
+  2. submit the work through a documented runtime that owns the compute cores:
+     the Spine-Runtime C++ API (`spert::Stream`, `StreamConfig::core_ids`,
+     `Grid`, `Context`), which is the vendor's own programming model for the
+     `spacemit-k3` backend (`CC Core {8..15}`, 384 KiB per-core shared buffer);
+     the llama.cpp SpacemiT backend; or the ONNX SpacemiT execution provider.
+     Those runtimes reach the driver on the caller's behalf - the llama.cpp
+     backend by writing to `/proc/set_ai_thread`, the others internally - and
+     the driver then executes the work on the AI cluster.
+- The A100 development path is therefore Spine-Runtime, not a private interface:
+  build against the published `libspert` headers and pkg-config file, query the
+  granted cores and shared-buffer size through `backend_info()` instead of
+  hard-coding them, and request cores through `StreamConfig` rather than trying
+  to pin a thread. `spacemit-k3-x100` is the vendor's compatible execution mode
+  on the X100 core set, and `generic/qemu` is for functional validation only -
+  neither reports the performance of the A100 cluster.
 - A build manifest and every sealed evidence package record the flag that
   enabled the A100 path and the runtime that registers AI threads, or state that
   the artefact is X100-only.
@@ -116,11 +127,13 @@ report states which one it targets.
   the measured memory roof differ per cluster, and a comparison across clusters
   states both ceilings.
 - Vendor AI runtimes are used through documented interfaces: the llama.cpp
-  SpacemiT backend, the ONNX SpacemiT execution provider, and its published
-  plugin API and debug-profile options. The vendor stack is pinned by identity -
-  the board's llama.cpp build `5a23f07a4` is vendor tag `v0.1.7-a0` (commit
-  `5a23f07a4519`), and the ONNX package `2.0.6` records the commit it was built
-  from - and a closed component's released package identity enters the evidence.
+  SpacemiT backend, the Spine-Runtime API, the ONNX SpacemiT execution provider,
+  and its published plugin API and debug-profile options. The vendor stack is
+  pinned by identity - the board's llama.cpp build `5a23f07a4` is vendor tag
+  `v0.1.7-a0` (commit `5a23f07a4519`), the Spine-Runtime SDK release `0.6.2`
+  carries `libspert.so.0.6.2`, and the ONNX package `2.0.6` records the commit
+  it was built from - and a closed component's released package identity enters
+  the evidence.
 
 ## Authority and review
 

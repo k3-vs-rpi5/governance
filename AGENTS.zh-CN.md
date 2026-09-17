@@ -42,7 +42,7 @@
 ## 工作区构建、设备与优化流程
 
 - 凡是需要在板子上执行的交叉编译产物，统一使用工作区工具链
-  `spacemit-toolchain-linux-glibc-x86_64-v1.2.2/`，例如
+  `spacemit-toolchain-linux-glibc-x86_64-v1.2.4/`，例如
   `bin/riscv64-unknown-linux-gnu-gcc`（GCC 15.2.0）及其自带的 `sysroot/`。
   这是 K3 开发与优化路径的默认选择；不得改用宿主机编译器、其它交叉工具链或
   未声明的厂商软件包。编译器、链接器、binutils、libc、sysroot 版本以及编译器
@@ -78,9 +78,17 @@ K3 暴露两个规则不同的簇，每个产物、每次测试、每份报告�
   1. 为智算核 ISA 编译该内核路径，即通过 `-march=..._xsmtvdotii` 或
      `-mcpu=spacemit-a100` 打开 IME2 指令族；缺少它的构建会静默地不含任何 A100
      路径；
-  2. 由厂商运行时把线程注册给驱动——llama.cpp 的 SpacemiT 后端通过写入
-     `/proc/set_ai_thread` 完成，ONNX 的 SpacemiT 执行提供者则在内部完成。随后
-     由驱动让该线程在智算核上执行。
+  2. 通过持有计算核的**公开运行时**提交工作：Spine-Runtime 的 C++ API
+     （`spert::Stream`、`StreamConfig::core_ids`、`Grid`、`Context`），这是厂商
+     针对 `spacemit-k3` 后端给出的编程模型（`CC Core {8..15}`，每核 384 KiB 共享
+     缓冲）；也可以走 llama.cpp 的 SpacemiT 后端或 ONNX 的 SpacemiT 执行提供者。
+     这些运行时代替调用者与驱动交接——llama.cpp 后端通过写入
+     `/proc/set_ai_thread`，其余在内部完成——随后由驱动让工作在智算核上执行。
+- 因此 A100 的开发路径是 Spine-Runtime，而不是私有接口：针对公开发布的 `libspert`
+  头文件与 pkg-config 文件构建，用 `backend_info()` 查询实际获得的核心数与共享
+  缓冲大小而不是硬编码，并通过 `StreamConfig` 申请核心，而不是试图去绑定线程。
+  `spacemit-k3-x100` 是厂商在 X100 核集上的兼容执行模式，`generic/qemu` 仅供功能
+  验证——两者都不代表 A100 簇的性能。
 - 构建清单与每一份封存证据都要记录打开 A100 路径的编译标志，以及注册 AI 线程的
   运行时；否则就明确声明该产物仅面向 X100。
 - 声称负载用到了 A100 簇时，必须给出簇级工作证据：per-CPU 计数器与按簇的
@@ -91,10 +99,11 @@ K3 暴露两个规则不同的簇，每个产物、每次测试、每份报告�
   智算核的板子上仍然正确运行。
 - 两个簇的测量不可互换。频率、缓存层次与实测内存天花板各不相同，跨簇对比必须
   同时给出两侧的天花板。
-- 厂商 AI 运行时只通过公开接口使用：llama.cpp 的 SpacemiT 后端、ONNX 的 SpacemiT
-  执行提供者，以及其公布的插件 API 与调试画像选项。厂商栈以身份固定——板上
-  llama.cpp 的构建号 `5a23f07a4` 对应厂商 tag `v0.1.7-a0`（提交
-  `5a23f07a4519`），ONNX 包 `2.0.6` 记录了它的构建提交——闭源组件的发布包身份
+- 厂商 AI 运行时只通过公开接口使用：llama.cpp 的 SpacemiT 后端、Spine-Runtime
+  API、ONNX 的 SpacemiT 执行提供者，以及其公布的插件 API 与调试画像选项。厂商栈
+  以身份固定——板上 llama.cpp 的构建号 `5a23f07a4` 对应厂商 tag `v0.1.7-a0`
+  （提交 `5a23f07a4519`），Spine-Runtime SDK 发布版 `0.6.2` 携带
+  `libspert.so.0.6.2`，ONNX 包 `2.0.6` 记录了它的构建提交——闭源组件的发布包身份
   必须进入证据。
 
 ## 权限与评审
