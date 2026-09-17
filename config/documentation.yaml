@@ -14,6 +14,13 @@ documents:
     owner: governance
     content_revision: 5
     chinese_review_status: reviewed
+  - id: tooling-register
+    english: docs/tooling.md
+    chinese: docs/tooling.zh-CN.md
+    class: specification
+    owner: governance
+    content_revision: 1
+    chinese_review_status: reviewed
   - id: experiment-design
     english: docs/design.md
     chinese: docs/design.zh-CN.md

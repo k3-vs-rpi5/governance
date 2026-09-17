@@ -1,0 +1,59 @@
+[中文](tooling.zh-CN.md)
+
+# Script and tool register
+
+The workspace accumulated scripts faster than it retired them, so the roles are
+written down here once. Every entry states what it is, who invokes it, what it
+overlaps with, and what should happen to it.
+
+## The four classes
+
+| class | meaning | consequence |
+|---|---|---|
+| **tool** | maintained, reached through a published door or a documented entry, with a defined input and output | gets fixed when it breaks; a new feature belongs here |
+| **debug-essential** | not part of normal runs, but required to diagnose a class of failure we have actually hit | kept and documented; manual invocation expected; its cost is published |
+| **frozen artefact** | produced the sealed evidence of one round and is kept only so that report can be regenerated | no features, no fixes beyond a syntax error; superseded tools are named |
+| **temporary** | scratch that lives outside Git; may be deleted when its round closes | never referenced by a contract; listed here so it is not mistaken for a tool |
+
+## Register
+
+| path | class | reached through | overlaps with | action |
+|---|---|---|---|---|
+| `foundation/src/labctl/` | tool | the `labctl` entry point | - | keep |
+| `*/scripts/build.sh`, `*/scripts/run.sh` | tool | the repository contract: exactly two doors | the ssh/credential block is repeated in each `run.sh` on purpose, so a repository stays self-contained when copied | keep |
+| `hardware/k3-monitor/scripts/suite.sh` | tool | humans and scenario runs | orchestrates `run.sh`; does not reimplement it | keep |
+| `hardware/k3-monitor/experiments/board.sh` | debug-essential | manual, and every experiment harness | the only ad-hoc board path; duplicates the credential block by design | keep |
+| `hardware/k3-monitor/experiments/onnx-ep-analysis.py` | tool | `suite.sh analyse` | supersedes `ai-optim.py`'s verdict checks | keep |
+| `hardware/k3-monitor/experiments/onnx-ep-profile.py` | tool | manual | - | keep |
+| `hardware/k3-monitor/experiments/onnx-ep-matrix.sh` | tool | manual | parallel in spirit to the llama.cpp matrix subcommand, different stack | keep |
+| `hardware/k3-monitor/experiments/package-summary.py` | tool | manual | - | keep |
+| `hardware/k3-monitor/experiments/phase-summary.py` | frozen artefact | - | round 14-15 phase split | keep, no features |
+| `hardware/k3-monitor/experiments/phase-compare.py` | frozen artefact | - | superseded by the repeat table in `onnx-ep-analysis.py` | keep, no features |
+| `hardware/k3-monitor/experiments/ai-scenarios.py` | frozen artefact | - | superseded by the scenario table in `suite.sh` | keep, no features |
+| `hardware/k3-monitor/experiments/ai-optim.py` | frozen artefact | - | superseded by `onnx-ep-analysis.py` | keep, no features |
+| `projects/llama.cpp/src/llama.cpp_project/bench.sh` | tool | `scripts/run.sh <subcommand>` | absorbs the three deleted experiment scripts | keep |
+| `.../gen_kernel_probe.py` | tool | build and debug | - | keep |
+| `.../probe/spacemit_kernel_probe.c` (+ template) | tool | `run.sh probe` | - | keep, cost published |
+| `.../probe/libm_caller_probe.c` + `libm_versions.map` | debug-essential | manual | - | keep |
+| `.../probe/fast_rounding.c` | frozen artefact | - | rejected optimisation, worked example for the triage rule | keep, never presented as a tool |
+| `.../probe/fast_rounding_check.c` | debug-essential | manual | - | keep |
+| `projects/spine-runtime/src/spine_runtime_project/a100_probe.cc` | tool | `scripts/run.sh` | - | keep |
+| `.local/llvm.sh`, `.local/llama.cpp/{diag,test-dl-off,diagnostic-probe.patch}` | temporary | - | build-investigation scratch | delete when the round closes, with approval |
+| `.local/coremark-work/` | frozen artefact | - | the campaign record that rounds cite | keep outside Git |
+
+## Rules that follow
+
+- A repository exposes two doors; everything else it ships is reached through
+  them. When a workflow needs a third verb, it becomes a subcommand, not a
+  script.
+- Ad-hoc device access is one tool (`board.sh`); the duplication inside each
+  `run.sh` is deliberate self-containment, not a merge candidate.
+- A tool that produced sealed evidence is frozen rather than deleted, and its
+  successor is named in place. Deleting it would break the ability to regenerate
+  that evidence.
+- Temporary items live outside Git, are named in this register, and are removed
+  at the end of their round - with human approval, because cleanup is a
+  destructive action under the workspace contract.
+- Overlap is resolved by naming the survivor: `onnx-ep-analysis.py` for verdict
+  checking, `package-summary.py` for a single package, `bench.sh` for llama.cpp
+  measurement.
