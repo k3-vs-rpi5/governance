@@ -81,6 +81,47 @@ A project-local `AGENTS.md` may impose stricter rules but cannot relax this file
   checkout lands in `src/<project>_project/`; most optimizations belong in the
   source code rather than in compile parameters.
 
+## Core clusters: X100 and A100
+
+The K3 exposes two clusters with different rules, and every artefact, test, and
+report states which one it targets.
+
+- X100 (cpu0-7) is an ordinary Linux cluster. Its code is compiled for the X100
+  ISA, scheduled normally, attributed per process, and may be pinned with
+  `taskset`.
+- A100 (cpu8-15) cannot be entered by an ordinary task. `sched_setaffinity` and
+  `taskset` reject every mask that contains an AI core - measured `EINVAL` for
+  `8`, `0,8`, `1,9`, `8-15`, `0,8-15`, `1-8`, `4-11` and `0-15`, while every
+  subset of 0-7 succeeds. A100 code is reached in two steps and only those two:
+  1. compile the kernel path for the AI core ISA, which means enabling the IME2
+     instruction family through `-march=..._xsmtvdotii` or
+     `-mcpu=spacemit-a100`; a build that omits it silently contains no A100
+     path;
+  2. let a vendor runtime register the thread with the driver, which is what the
+     llama.cpp SpacemiT backend does by writing to `/proc/set_ai_thread`, and
+     what the ONNX SpacemiT execution provider does internally. The driver then
+     executes that thread on the AI cluster.
+- A build manifest and every sealed evidence package record the flag that
+  enabled the A100 path and the runtime that registers AI threads, or state that
+  the artefact is X100-only.
+- A claim that a workload used the A100 cluster must show cluster-level
+  engagement, from the per-CPU counters and the per-cluster `/proc/stat` time
+  agreeing that the cluster worked. Per-process CPU time is never presented as
+  A100 work, because the AI cores have no per-process accounting.
+- Path selection follows the hardware, not the build host: the arch id in
+  `/proc/cpuinfo` decides (`0x5064` for X100, `0xA064` for A100), so one binary
+  may carry both kernel sets and still run correctly on a board without an AI
+  cluster.
+- Cluster measurements are not interchangeable. Frequency, cache hierarchy and
+  the measured memory roof differ per cluster, and a comparison across clusters
+  states both ceilings.
+- Vendor AI runtimes are used through documented interfaces: the llama.cpp
+  SpacemiT backend, the ONNX SpacemiT execution provider, and its published
+  plugin API and debug-profile options. The vendor stack is pinned by identity -
+  the board's llama.cpp build `5a23f07a4` is vendor tag `v0.1.7-a0` (commit
+  `5a23f07a4519`), and the ONNX package `2.0.6` records the commit it was built
+  from - and a closed component's released package identity enters the evidence.
+
 ## Authority and review
 
 AI contributors may inspect, implement an approved scope, run in-scope checks,
