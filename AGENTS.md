@@ -115,10 +115,18 @@ report states which one it targets.
 - A build manifest and every sealed evidence package record the flag that
   enabled the A100 path and the runtime that registers AI threads, or state that
   the artefact is X100-only.
-- A claim that a workload used the A100 cluster must show cluster-level
-  engagement, from the per-CPU counters and the per-cluster `/proc/stat` time
-  agreeing that the cluster worked. Per-process CPU time is never presented as
-  A100 work, because the AI cores have no per-process accounting.
+- A claim that a workload used the A100 cluster must show engagement from the
+  vendor side: the runtime's registration of the work and the TCM block
+  occupancy that names the workload's pid (`spacemit-tcm-smi`), read together
+  with the throughput arithmetic the workload's own size and token rate imply.
+  Measured on the K3 on 2026-09-18, the Linux-side instruments cannot see this
+  cluster at all: while a dense run produced 124 t/s of prefill, the kernel's
+  own perf counted 1,633,901 cycles in two seconds across cpu8-15 against
+  773,030,024 on cpu0, and `/proc/stat` credited cpu8 and cpu15 with zero user
+  and system jiffies (401 and 402 idle jiffies of 402). Per-process CPU time is
+  never presented as A100 work, because the AI cores have no per-process
+  accounting, and per-CPU counters or `/proc/stat` are never presented as A100
+  evidence, because on this board they do not see it.
 - Path selection follows the hardware, not the build host: the arch id in
   `/proc/cpuinfo` decides (`0x5064` for X100, `0xA064` for A100), so one binary
   may carry both kernel sets and still run correctly on a board without an AI
