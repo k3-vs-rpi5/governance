@@ -38,6 +38,14 @@ A project-local `AGENTS.md` may impose stricter rules but cannot relax this file
 - Preserve the three tracks `rpi-native`, `k3-compatible`, and
   `k3-development`, plus separate `default-parity` and `best-achievable`
   results. Disclose every material mismatch.
+- Optimisation scope excludes the model itself. Until this contract says
+  otherwise, the model file, its quantisation and its weight layout are fixed
+  inputs: no accepted optimisation may change them, and a finding whose only
+  lever is the model or its layout is never carried as a pending optimisation.
+  It is recorded as measured and out of scope, with the number that says what it
+  would have been worth - for example the Q4_0-class layout that decodes 13 %
+  faster than the shipped Q4_K_M on the K3 (2026-09-18). Kernel, runtime,
+  deployment, memory-policy and harness optimisations stay in scope.
 - Each project exposes only `scripts/build.sh` and `scripts/run.sh`. Reports are
   never written as a side effect of a benchmark run.
 - Device runs use host-to-device code delivery. Push the selected workspace or
