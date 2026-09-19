@@ -23,6 +23,7 @@
 | `hardware/k3-monitor/src/k3mon_project/payload_verify.py` | 工具 | `run.sh verify [payload]` | 唯一的载荷交付前校验；因一次缺符号链接导致运行作废而写 | 保留 |
 | `hardware/k3-monitor/src/k3mon_project/evidence_index.py` | 工具 | `run.sh evidence [root]` | 唯一的本地证据树与封存状态索引 | 保留 |
 | `hardware/k3-monitor/src/k3mon_project/selfcheck.py` | 工具 | `run.sh selfcheck` | 一次跑完机械自检，使那套找出四个缺陷的审计不必手工重复；这里特意不写检查项数量，因为每有一项检查第二次证明自己的价值，它就会增加 | 保留 |
+| `hardware/k3-monitor/src/k3mon_project/literature.py` | 工具 | `run.sh literature search\|verify\|platforms` | 把解码优化的"已发表"与"已实践"两侧放在一处：按 id 取 arXiv 摘要、按新旧顺序查 arXiv 搜索页，以及本工作区用来对照的工程来源；写它的原因是"别人怎么做"这类调研每轮都被手工重做，且本机网络是部分可达的，哪些来源可读本身也是记录的一部分 | 保留 |
 | `hardware/k3-monitor/src/k3mon_project/suite.sh` | 工具 | `scripts/run.sh build\|check\|scenarios\|suite\|analyse` | 编排各仓库脚本，不重复实现 | 保留 |
 | `hardware/k3-fan-control/tests/guard-test.sh` | 工具 | `tests/guard-test.sh` | 唯一不需要板卡的风扇守护进程测试；它在私有 mount namespace 中伪造 sysfs 树，而板卡会长时间不可达 | 保留 |
 | `projects/linux-6.18/src/linux_6_18_project/` | 工具 | `scripts/build.sh`、`scripts/run.sh` | 唯一组装内核配置、构建与包版本的地方；没有它，内核变更就是一张没有身份的拷贝镜像 | 保留 |
