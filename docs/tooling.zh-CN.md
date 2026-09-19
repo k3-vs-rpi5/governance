@@ -37,6 +37,7 @@
 | `hardware/k3-monitor/experiments/ai-scenarios.py` | 冻结产物 | - | 已被套件的场景表取代 | 保留，不加功能 |
 | `hardware/k3-monitor/experiments/ai-optim.py` | 冻结产物 | - | 已被 `onnx-ep-analysis.py` 取代 | 保留，不加功能 |
 | `projects/llama.cpp/src/llama.cpp_project/bench.sh` | 工具 | `scripts/run.sh <subcommand>`（子命令形式） | 吸收了被删掉的三个实验脚本 | 保留 |
+| `projects/llama.cpp/src/llama.cpp_project/weight_order.py` | 工具 | `scripts/run.sh weight-order TRACE`（子命令形式） | 一个 decode token 读取重排权重的实际顺序，来源是诊断构建写出的读取轨迹 | 保留 |
 | `.../gen_kernel_probe.py` | 工具 | 构建与调试 | - | 保留 |
 | `.../probe/spacemit_kernel_probe.c`（含模板） | 工具 | `run.sh probe` | - | 保留，代价公布 |
 | `.../probe/libm_caller_probe.c` 与 `libm_versions.map` | 调试必备 | 手动 | - | 保留 |

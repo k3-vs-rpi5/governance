@@ -38,6 +38,7 @@ overlaps with, and what should happen to it.
 | `hardware/k3-monitor/experiments/ai-scenarios.py` | frozen artefact | - | superseded by the scenario table in the suite | keep, no features |
 | `hardware/k3-monitor/experiments/ai-optim.py` | frozen artefact | - | superseded by `onnx-ep-analysis.py` | keep, no features |
 | `projects/llama.cpp/src/llama.cpp_project/bench.sh` | tool | `scripts/run.sh <subcommand>` | absorbs the three deleted experiment scripts | keep |
+| `projects/llama.cpp/src/llama.cpp_project/weight_order.py` | tool | `scripts/run.sh weight-order TRACE` | the order a decode token reads the repacked weights in, from the read trace a diagnostic build writes | keep |
 | `.../gen_kernel_probe.py` | tool | build and debug | - | keep |
 | `.../probe/spacemit_kernel_probe.c` (+ template) | tool | `run.sh probe` | - | keep, cost published |
 | `.../probe/libm_caller_probe.c` + `libm_versions.map` | debug-essential | manual | - | keep |
