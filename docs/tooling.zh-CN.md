@@ -27,6 +27,8 @@
 | `hardware/k3-monitor/src/k3mon_project/suite.sh` | 工具 | `scripts/run.sh build\|check\|scenarios\|suite\|analyse` | 编排各仓库脚本，不重复实现 | 保留 |
 | `hardware/k3-fan-control/tests/guard-test.sh` | 工具 | `tests/guard-test.sh` | 唯一不需要板卡的风扇守护进程测试；它在私有 mount namespace 中伪造 sysfs 树，而板卡会长时间不可达 | 保留 |
 | `projects/linux-6.18/src/linux_6_18_project/` | 工具 | `scripts/build.sh`、`scripts/run.sh` | 唯一组装内核配置、构建与包版本的地方；没有它，内核变更就是一张没有身份的拷贝镜像 | 保留 |
+| `projects/onnxruntime/src/onnxruntime_project/` | 工具 | `scripts/run.sh materials\|scenarios` | 材料锁与冻结场景套件：无人值守的 S10/S12/S11 运行、验收带与每次运行一个封存包 | 保留 |
+| `projects/onnxruntime/src/onnxruntime_project/tools/` | 工具 | `scripts/run.sh instrument <board-script>`，或按名在主机侧直接运行 | 场景计划的板卡侧仪器与主机侧归约器；每个都承载一条测量配方 | 保留 |
 | `hardware/k3-monitor/experiments/board.sh` | 调试必备 | 手动，以及各实验装置 | 唯一的临时板卡通道；按设计重复凭据块 | 保留 |
 | `hardware/k3-monitor/experiments/onnx-ep-analysis.py` | 工具 | `run.sh analyse` | 取代 `ai-optim.py` 的结论复核 | 保留 |
 | `hardware/k3-monitor/experiments/onnx-ep-profile.py` | 工具 | 手动 | - | 保留 |
@@ -58,9 +60,9 @@
 
 | 缺口 | 状态 |
 |---|---|
-| `projects/onnxruntime` 没有 `scripts/` 入口，也没有 `_project` 包 | 已声明：provider 闭源且自动化尚未编写；登记表明说，而不是假装项目完整 |
-| `projects/onnxruntime` 与 `projects/spine-runtime` 没有项目局部 `AGENTS.md` | 开放：coremark 与 llama.cpp 已有 |
-| 六个硬件仓库与三个新项目不在 `.repo/manifests/default.xml` 中 | 开放：它们的远端尚不存在，写进清单会破坏 `repo sync`；条目已作为评审材料写在各 README |
+| `projects/onnxruntime` 没有 `scripts/` 入口，也没有 `_project` 包 | **2026-09-27 关闭**：两者都已存在；`materials.sh` 与 `scenarios.sh` 移到 `src/onnxruntime_project/` 之下，经 `run.sh materials` 与 `run.sh scenarios` 触达，两入口规则恢复 |
+| `projects/onnxruntime` 与 `projects/spine-runtime` 没有项目局部 `AGENTS.md` | 开放：coremark、llama.cpp 与 linux-6.18 已有 |
+| 六个硬件仓库与三个新项目不在 `.repo/manifests/default.xml` 中 | **2026-09-26 关闭**：十四个仓库都已登记，位于 `ai,notdefault` 组，条件是它们的远端已记录 |
 
 ## 由此得出的规则
 

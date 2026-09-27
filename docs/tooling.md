@@ -28,6 +28,8 @@ overlaps with, and what should happen to it.
 | `hardware/k3-monitor/src/k3mon_project/suite.sh` | tool | `scripts/run.sh build\|check\|scenarios\|suite\|analyse` | orchestrates the per-repository scripts; does not reimplement them | keep |
 | `hardware/k3-fan-control/tests/guard-test.sh` | tool | `tests/guard-test.sh` | the only test of the fan guard that does not need the board; it fakes the sysfs tree inside a private mount namespace, and the board is unreachable for long stretches | keep |
 | `projects/linux-6.18/src/linux_6_18_project/` | tool | `scripts/build.sh`, `scripts/run.sh` | the only place a kernel configuration, a build or a package version is assembled; without it a kernel change is a hand-copied image with no identity | keep |
+| `projects/onnxruntime/src/onnxruntime_project/` | tool | `scripts/run.sh materials\|scenarios` | the materials lock and the frozen scenario suite: the unattended S10/S12/S11 runs, their bands and one sealed package per run | keep |
+| `projects/onnxruntime/src/onnxruntime_project/tools/` | tool | `scripts/run.sh instrument <board-script>`, or by name on the host | the board-side instruments and host-side reducers of the scenario programme; each holds one measurement recipe | keep |
 | `hardware/k3-monitor/experiments/board.sh` | debug-essential | manual, and every experiment harness | the only ad-hoc board path; duplicates the credential block by design | keep |
 | `hardware/k3-monitor/experiments/onnx-ep-analysis.py` | tool | `run.sh analyse` | supersedes `ai-optim.py`'s verdict checks | keep |
 | `hardware/k3-monitor/experiments/onnx-ep-profile.py` | tool | manual | - | keep |
@@ -60,9 +62,9 @@ that. Code that is still unaudited is listed as such rather than omitted.
 
 | gap | state |
 |---|---|
-| `projects/onnxruntime` has no `scripts/` doors and no `_project` package | declared: the provider is closed and its automation has not been written; the register says so instead of pretending the project is complete |
-| neither `projects/onnxruntime` nor `projects/spine-runtime` has a project-local `AGENTS.md` | open: coremark and llama.cpp do |
-| the six hardware repositories and three new projects are absent from `.repo/manifests/default.xml` | open: their remotes do not exist yet, so a manifest entry would break `repo sync`; entries are prepared as review material in each README |
+| `projects/onnxruntime` has no `scripts/` doors and no `_project` package | **closed 2026-09-27**: both exist; `materials.sh` and `scenarios.sh` moved under `src/onnxruntime_project/` and are reached as `run.sh materials` and `run.sh scenarios`, so the two-door rule holds |
+| `projects/onnxruntime` and `projects/spine-runtime` have no project-local `AGENTS.md` | open: coremark, llama.cpp and linux-6.18 do |
+| the six hardware repositories and three new projects are absent from `.repo/manifests/default.xml` | **closed 2026-09-26**: all fourteen repositories are named there, in the `ai,notdefault` group, once their remotes were recorded |
 
 ## Rules that follow
 
